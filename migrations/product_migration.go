@@ -8,3 +8,6 @@ import (
 func ProductMigration() {
 	config.DB.AutoMigrate(&models.Product{})
 }
+func CategoryMigration() {
+	config.DB.AutoMigrate(&models.Category{})
+}
