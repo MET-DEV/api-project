@@ -1,6 +1,8 @@
 package repositories
 
 import (
+	"fmt"
+
 	"github.com/MET-DEV/api-project/config"
 	"github.com/MET-DEV/api-project/models"
 )
@@ -8,6 +10,10 @@ import (
 func GetAllProducts() []models.Product {
 	var products []models.Product
 	config.DB.Find(&products)
+	for i := 0; i < len(products); i++ {
+		products[i].Category = GetByIdCategory(products[i].CategoryID)
+		fmt.Println(GetByIdCategory(products[i].CategoryID).CategoryName)
+	}
 	return products
 }
 func GetByIdProduct(id int) models.Product {
