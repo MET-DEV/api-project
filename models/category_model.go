@@ -6,5 +6,5 @@ import (
 
 type Category struct {
 	gorm.Model
-	CategoryName string `json:"category_name"`
+	CategoryName string `json:"category_name" validate:"required"`
 }

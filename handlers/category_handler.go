@@ -8,6 +8,7 @@ import (
 
 	"github.com/MET-DEV/api-project/models"
 	"github.com/MET-DEV/api-project/repositories"
+	"github.com/MET-DEV/api-project/validations"
 	"github.com/gorilla/mux"
 )
 
@@ -30,6 +31,11 @@ func AddCategory(w http.ResponseWriter, r *http.Request) {
 	var category models.Category
 	w.Header().Set("Content-Type", "application/json")
 	json.NewDecoder(r.Body).Decode(&category)
+	e := validations.CategoryValidator(category)
+	if e != nil {
+		json.NewEncoder(w).Encode(e.Field() + " is required")
+		return
+	}
 	var categoryDb models.Category = repositories.AddCategory(category)
 	json.NewEncoder(w).Encode(categoryDb)
 }

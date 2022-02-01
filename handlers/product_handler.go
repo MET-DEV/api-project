@@ -8,6 +8,7 @@ import (
 
 	"github.com/MET-DEV/api-project/models"
 	"github.com/MET-DEV/api-project/repositories"
+	"github.com/MET-DEV/api-project/validations"
 	"github.com/gorilla/mux"
 )
 
@@ -19,9 +20,18 @@ func AddProduct(w http.ResponseWriter, r *http.Request) {
 	var product models.Product
 	w.Header().Set("Content-Type", "application/json")
 	json.NewDecoder(r.Body).Decode(&product)
+	validateProduct := product
+	validateProduct.Category.CategoryName = "passthisfield"
+	e := validations.ProductValidator(validateProduct)
+	if e != nil {
+
+		json.NewEncoder(w).Encode(e.Field() + " is required")
+		return
+	}
 	var productDb models.Product = repositories.AddProduct(product)
 	json.NewEncoder(w).Encode(productDb)
 }
+
 func GetProductById(w http.ResponseWriter, r *http.Request) {
 	var product models.Product
 	w.Header().Set("Content-Type", "application-json")
