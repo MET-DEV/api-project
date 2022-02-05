@@ -18,6 +18,9 @@ func IndexRouting() *mux.Router {
 	r.HandleFunc("/api/categories", AddCategory).Methods("POST")
 	r.HandleFunc("/api/categories/{id}", DeleteCategory).Methods("DELETE")
 	r.HandleFunc("/api/categories/update", UpdateCategory).Methods("PATCH")
+	//? <--------------------User-------------------------->
+	r.HandleFunc("/api/users", GetAllUsers).Methods("GET")
+	r.HandleFunc("/api/users", AddUser).Methods("POST")
 
 	return r
 }
