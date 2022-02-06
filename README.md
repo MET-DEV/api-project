@@ -53,3 +53,17 @@
 
 
 ##### For Delete Category ```DELETE localhost:8080/api/categories/{id} ```  <br/>
+## For User Service 
+##### For Get All Users ```GET localhost:8080/api/users ``` <br/>
+##### For Add User ```POST localhost:8080/api/users ```  <br/>
+###### Request Body: 
+```json
+{
+    "first_name":"",
+    "last_name":"",
+    "email":"",
+    "password":"",
+    "phone_number":"",
+    "birth_date":"",
+}
+```
