@@ -20,7 +20,10 @@ func IndexRouting() *mux.Router {
 	r.HandleFunc("/api/categories/update", UpdateCategory).Methods("PATCH")
 	//? <--------------------User-------------------------->
 	r.HandleFunc("/api/users", GetAllUsers).Methods("GET")
+	r.HandleFunc("/api/users/{id}", GetUserById).Methods("GET")
 	r.HandleFunc("/api/users", AddUser).Methods("POST")
+	r.HandleFunc("/api/users/{id}", DeleteUser).Methods("DELETE")
+	r.HandleFunc("/api/users/update", UpdateUser).Methods("PATCH")
 
 	return r
 }
