@@ -3,9 +3,11 @@ package handlers
 import (
 	"encoding/json"
 	"net/http"
+	"strconv"
 
 	"github.com/MET-DEV/api-project/models"
 	"github.com/MET-DEV/api-project/repositories"
+	"github.com/gorilla/mux"
 )
 
 func GetAllUsers(w http.ResponseWriter, r *http.Request) {
@@ -13,6 +15,21 @@ func GetAllUsers(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
 	json.NewEncoder(w).Encode(repositories.GetAllUsers())
 
+}
+func GetUserById(w http.ResponseWriter, r *http.Request) {
+	var user models.User
+	w.Header().Set("Content-Type", "application/json")
+	params := mux.Vars(r)
+	id, err := strconv.Atoi(params["id"])
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		json.NewEncoder(w).Encode("Id hatalı")
+		return
+
+	}
+	w.WriteHeader(http.StatusOK)
+	user = repositories.GetByIdUser(id)
+	json.NewEncoder(w).Encode(user)
 }
 func AddUser(w http.ResponseWriter, r *http.Request) {
 	var user models.User
@@ -22,4 +39,26 @@ func AddUser(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
 	json.NewEncoder(w).Encode(userDb)
 
+}
+func UpdateUser(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application-json")
+	var user models.User
+	w.Header().Set("Content-Type", "application/json")
+	json.NewDecoder(r.Body).Decode(&user)
+	var userDb models.User = repositories.UpdateUser(user)
+	w.WriteHeader(http.StatusOK)
+	json.NewEncoder(w).Encode(userDb)
+}
+func DeleteUser(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+	params := mux.Vars(r)
+	id, err := strconv.Atoi(params["id"])
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		json.NewEncoder(w).Encode("Id hatalı")
+		return
+	}
+	w.WriteHeader(http.StatusOK)
+	repositories.DeleteUser(id)
+	json.NewEncoder(w).Encode("Deleted")
 }
