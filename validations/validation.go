@@ -29,3 +29,16 @@ func CategoryValidator(data models.Category) validator.FieldError {
 
 	return nil
 }
+
+func UserValidator(data models.User) validator.FieldError {
+	v := validator.New()
+
+	err := v.Struct(data)
+	if err != nil {
+		for _, e := range err.(validator.ValidationErrors) {
+			return e
+		}
+	}
+
+	return nil
+}
