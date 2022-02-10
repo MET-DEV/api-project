@@ -7,6 +7,7 @@ import (
 
 	"github.com/MET-DEV/api-project/models"
 	"github.com/MET-DEV/api-project/repositories"
+	"github.com/MET-DEV/api-project/validations"
 	"github.com/gorilla/mux"
 )
 
@@ -35,6 +36,12 @@ func AddUser(w http.ResponseWriter, r *http.Request) {
 	var user models.User
 	w.Header().Set("Content-Type", "application/json")
 	json.NewDecoder(r.Body).Decode(&user)
+	e := validations.UserValidator(user)
+	if e != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		json.NewEncoder(w).Encode(e.Field() + " is required")
+		return
+	}
 	var userDb models.User = repositories.AddUser(user)
 	w.WriteHeader(http.StatusOK)
 	json.NewEncoder(w).Encode(userDb)
