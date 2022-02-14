@@ -10,6 +10,7 @@ require (
 	github.com/leodido/go-urn v1.2.1 // indirect
 	github.com/qor/validations v0.0.0-20171228122639-f364bca61b46 // indirect
 	github.com/rakyll/statik v0.1.7
+	golang.org/x/crypto v0.0.0-20220210151621-f4118a5b28e2
 	gopkg.in/go-playground/validator.v9 v9.31.0
 	gorm.io/driver/postgres v1.2.3
 	gorm.io/gorm v1.22.5
