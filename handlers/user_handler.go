@@ -7,6 +7,7 @@ import (
 
 	"github.com/MET-DEV/api-project/models"
 	"github.com/MET-DEV/api-project/repositories"
+	"github.com/MET-DEV/api-project/security"
 	"github.com/MET-DEV/api-project/validations"
 	"github.com/gorilla/mux"
 )
@@ -42,6 +43,13 @@ func AddUser(w http.ResponseWriter, r *http.Request) {
 		json.NewEncoder(w).Encode(e.Field() + " is required")
 		return
 	}
+	user.Password = security.HashPassword(user.Password)
+	if user.Password == "" {
+		w.WriteHeader(http.StatusBadRequest)
+		json.NewEncoder(w).Encode("Parola şifrelenirken hata oluştu")
+		return
+	}
+
 	var userDb models.User = repositories.AddUser(user)
 	w.WriteHeader(http.StatusOK)
 	json.NewEncoder(w).Encode(userDb)
