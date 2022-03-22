@@ -6,5 +6,6 @@ import (
 
 type Category struct {
 	gorm.Model
-	CategoryName string `json:"category_name" validate:"required"`
+	CategoryName string    `json:"category_name" validate:"required"`
+	Products     []Product `gorm:"foreignkey:CategoryID"`
 }
